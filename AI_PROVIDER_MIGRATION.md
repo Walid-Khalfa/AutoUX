@@ -11,7 +11,7 @@ Suite à des problèmes de fiabilité avec OpenRouter (scores incorrects, calcul
 **Nouveau fichier : `backend/.env`**
 ```env
 # Google Gemini API Configuration (Primary)
-GEMINI_API_KEY=AIzaSyDf3LFuxbdNcQC5Eb2YqIVbXRQPpfBdb4U
+GEMINI_API_KEY=your_gemini_api_key_here
 GEMINI_MODEL=gemini-2.0-flash-exp
 
 # AI Provider Selection

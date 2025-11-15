@@ -125,7 +125,7 @@ We used natural language to iterate quickly on features:
 **Conversation:**
 ```
 Me: "Suite a un problème de fiabilité du llm on va changer vers gemini 2.5 flash 
-     latest voici la cle api AIzaSy..."
+     latest voici la cle api [CLÉ_RÉVOQUÉE]"
 
 Kiro: [Immediately understood the problem and:]
 1. Created new Gemini service (geminiAnalyzer.js)

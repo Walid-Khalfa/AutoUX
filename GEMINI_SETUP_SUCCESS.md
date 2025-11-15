@@ -3,7 +3,7 @@
 ## Configuration finale
 
 **Fournisseur d'IA actif :** Google Gemini 2.5 Flash  
-**Clé API :** AIzaSyD9y9ENgdl5Jzbn5Rp3W2xh_WHyBGNoeM4  
+**Clé API :** [CONFIGURÉE - Voir .env]  
 **Modèle :** gemini-2.5-flash  
 **Statut :** ✅ Testé et fonctionnel
 
@@ -50,7 +50,7 @@ node list-gemini-models.js
 ### backend/.env
 ```env
 # Google Gemini API Configuration
-GEMINI_API_KEY=AIzaSyD9y9ENgdl5Jzbn5Rp3W2xh_WHyBGNoeM4
+GEMINI_API_KEY=your_gemini_api_key_here
 GEMINI_MODEL=gemini-2.5-flash
 
 # AI Provider Selection (gemini or openrouter)

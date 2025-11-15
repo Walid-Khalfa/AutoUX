@@ -62,7 +62,7 @@
    - In Railway dashboard, go to Variables
    - Add:
      ```
-     GEMINI_API_KEY=AIzaSyD9y9ENgdl5Jzbn5Rp3W2xh_WHyBGNoeM4
+     GEMINI_API_KEY=your_gemini_api_key_here
      GEMINI_MODEL=gemini-2.5-flash
      AI_PROVIDER=gemini
      CORS_ORIGIN=https://your-frontend-url.vercel.app
