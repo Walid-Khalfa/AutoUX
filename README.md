@@ -15,7 +15,7 @@
 
 ## 🌟 Key Features
 
-- 🧠 **AI-Powered Analysis** - OpenRouter LLM (KAT-Coder-Pro) analyzes logs and generates actionable recommendations
+- 🧠 **AI-Powered Analysis** - Google Gemini 2.0 Flash analyzes logs and generates actionable recommendations
 - 📁 **Multi-Format Support** - JSON, NDJSON, CSV, XML, HTML, HAR, TXT, LOG
 - 🔗 **Web3 Verification** - Anchor report hashes on Ethereum Sepolia for immutable proof
 - 📊 **Interactive Dashboard** - Animated UX score gauge with visual metrics
@@ -112,7 +112,7 @@ npm install
 
 This single command installs all dependencies for:
 - Frontend (React + Vite)
-- Backend (Express + OpenRouter)
+- Backend (Express + Gemini AI)
 - Web3 (Hardhat + Ethers.js)
 
 ### Step 3: Configure Environment Variables
@@ -129,10 +129,8 @@ cp .env.example .env
 Edit `backend/.env`:
 
 ```env
-# OpenRouter API Configuration
-OPENROUTER_API_KEY=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
-OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
-OPENROUTER_MODEL=kwaipilot/kat-coder-pro:free
+# Google Gemini API Configuration
+GEMINI_API_KEY=your_gemini_api_key_here
 
 # Server Configuration
 PORT=3001
@@ -233,14 +231,14 @@ autoux/
 ├── backend/                      # Express API Server
 │   ├── src/
 │   │   ├── config/              # Configuration files
-│   │   │   ├── openrouter.js    # OpenRouter API config
+│   │   │   ├── gemini.js        # Google Gemini API config
 │   │   │   ├── paths.js         # File paths
 │   │   │   └── server.js        # Server config
 │   │   ├── routes/
 │   │   │   └── analyze.js       # POST /api/analyze endpoint
 │   │   ├── services/
 │   │   │   ├── fileParser.js    # Multi-format log parser
-│   │   │   ├── llmAnalyzer.js   # OpenRouter LLM integration
+│   │   │   ├── geminiAnalyzer.js # Google Gemini AI integration
 │   │   │   └── reportGenerator.js # Report formatting
 │   │   ├── schemas/
 │   │   │   └── index.js         # Zod validation schemas
@@ -300,7 +298,7 @@ autoux/
 
 ### Key Directories
 
-- **`backend/`** - Express server that handles file uploads, parses logs, and communicates with OpenRouter LLM
+- **`backend/`** - Express server that handles file uploads, parses logs, and communicates with Google Gemini AI
 - **`frontend/`** - React SPA with modern UI, Web3 integration, and interactive dashboard
 - **`web3/`** - Solidity smart contracts and deployment scripts for Ethereum Sepolia
 - **`test-data/`** - Sample log files for testing different scenarios
@@ -316,9 +314,7 @@ autoux/
 
 | Variable | Description | Default | Required |
 |----------|-------------|---------|----------|
-| `OPENROUTER_API_KEY` | OpenRouter API key for LLM analysis | Pre-configured | Yes |
-| `OPENROUTER_BASE_URL` | OpenRouter API endpoint | `https://openrouter.ai/api/v1` | Yes |
-| `OPENROUTER_MODEL` | LLM model to use | `kwaipilot/kat-coder-pro:free` | Yes |
+| `GEMINI_API_KEY` | Google Gemini API key for AI analysis | - | Yes |
 | `PORT` | Backend server port | `3001` | No |
 | `CORS_ORIGIN` | Allowed CORS origin | `http://localhost:5173` | No |
 
@@ -418,7 +414,7 @@ file: <File> (required)
       "highCount": 3,
       "mediumCount": 3,
       "lowCount": 1,
-      "analysisModel": "kwaipilot/kat-coder-pro:free"
+      "analysisModel": "gemini-2.0-flash-exp"
     }
   },
   "markdown": "# AutoUX Analysis Report\n\n..."
@@ -432,7 +428,7 @@ file: <File> (required)
 | 400 | `FILE_TOO_LARGE` | File exceeds 10MB limit |
 | 400 | `UNSUPPORTED_FORMAT` | File format not supported |
 | 400 | `PARSE_ERROR` | Failed to parse log file |
-| 500 | `LLM_API_ERROR` | OpenRouter API request failed |
+| 500 | `LLM_API_ERROR` | Gemini API request failed |
 | 500 | `LLM_TIMEOUT` | Analysis exceeded 60s timeout |
 | 429 | `RATE_LIMIT_EXCEEDED` | Too many requests |
 
@@ -504,7 +500,7 @@ npm run test:frontend
 
 **Backend Tests (`backend/src/**/__tests__/`):**
 - ✅ File parser (all 8 formats)
-- ✅ LLM analyzer (OpenRouter integration)
+- ✅ LLM analyzer (Google Gemini integration)
 - ✅ Report generator (JSON + Markdown)
 - ✅ Schema validation (Zod)
 - ✅ API routes (POST /api/analyze)
@@ -587,11 +583,11 @@ npm run dev
 
 #### "LLM API Error" / "Analysis Failed"
 
-**Problem:** OpenRouter API request failed
+**Problem:** Gemini API request failed
 
 **Solutions:**
-1. Check `OPENROUTER_API_KEY` in `backend/.env`
-2. Verify API key is valid: https://openrouter.ai/
+1. Check `GEMINI_API_KEY` in `backend/.env`
+2. Verify API key is valid: https://aistudio.google.com/apikey
 3. Check rate limits (free tier has limits)
 4. Try again in a few minutes
 5. Check backend logs for detailed error
@@ -835,7 +831,7 @@ VITE_ETHERSCAN_URL=https://sepolia.etherscan.io
        ▼
 ┌─────────────────┐
 │ AI Analysis     │
-│ (OpenRouter)    │
+│ (Gemini Flash)  │
 └──────┬──────────┘
        │
        ▼
@@ -1211,8 +1207,8 @@ AutoUX automatically detects 4 categories of UX issues:
 | Technology | Purpose | Version |
 |------------|---------|---------|
 | **Kiro AI** | Primary development assistant | Latest |
-| OpenRouter API | LLM-powered log analysis | v1 |
-| KAT-Coder-Pro | Free AI model for analysis | Latest |
+| Google Gemini API | AI-powered log analysis | 2.0 Flash |
+| Gemini 2.0 Flash | Free AI model for analysis | Latest |
 
 ### Frontend
 
@@ -1232,7 +1228,7 @@ AutoUX automatically detects 4 categories of UX issues:
 |------------|---------|---------|
 | Node.js | Runtime environment | 18+ |
 | Express | Web framework | 4.18.2 |
-| OpenAI SDK | OpenRouter client | 6.8.1 |
+| @google/generative-ai | Google Gemini SDK | Latest |
 | Multer | File upload handling | 2.0.2 |
 | Zod | Schema validation | 3.22.4 |
 | Jest | Testing framework | 29.7.0 |
@@ -1276,7 +1272,7 @@ AutoUX automatically detects 4 categories of UX issues:
 ### What Makes AutoUX Unique?
 
 1. **AI-First Approach**
-   - Real-time LLM analysis with OpenRouter
+   - Real-time AI analysis with Google Gemini 2.0 Flash
    - Context-aware recommendations
    - WCAG 2.2 and Web Vitals integration
 
@@ -1356,7 +1352,7 @@ MIT License - See LICENSE file for details
 ## 🙏 Acknowledgments
 
 - **Kiro AI** - Primary development assistant
-- **OpenRouter** - Free LLM API access
+- **Google Gemini** - Free AI API access
 - **Ethereum Foundation** - Sepolia testnet
 - **AWS** - Hackathon organization
 - **Open Source Community** - Amazing tools and libraries
