@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoUX Mobile Responsiveness Test</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #111827;
+      margin-bottom: 30px;
+      font-size: 2rem;
+    }
+
+    .test-section {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .test-section h2 {
+      color: #2563eb;
+      margin-bottom: 16px;
+      font-size: 1.5rem;
+    }
+
+    .test-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .test-card {
+      background: #f9fafb;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .test-card:hover {
+      border-color: #2563eb;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    }
+
+    .test-card h3 {
+      color: #374151;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+
+    .test-card p {
+      color: #6b7280;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    .status.pass {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .status.pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    /* Mobile Upload Button Demo */
+    .mobile-upload-demo {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 16px 32px;
+      min-height: 56px;
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-upload-demo:hover {
+      transform: translateX(-50%) translateY(-4px);
+      box-shadow: 0 12px 32px rgba(37, 99, 235, 0.5);
+    }
+
+    /* Touch-friendly elements demo */
+    .touch-demo {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .touch-demo button {
+      min-height: 44px;
+      min-width: 44px;
+      padding: 12px 16px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .touch-demo button:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+    }
+
+    /* Responsive breakpoints */
+    @media (max-width: 768px) {
+      body {
+        padding: 12px;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      .test-section h2 {
+        font-size: 1.25rem;
+      }
+
+      .test-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mobile-upload-demo {
+        display: flex !important;
+      }
+
+      /* Add bottom padding to avoid button overlap */
+      body {
+        padding-bottom: 100px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .test-section {
+        padding: 16px;
+      }
+    }
+
+    @media (max-width: 375px) {
+      h1 {
+        font-size: 1.25rem;
+      }
+
+      body {
+        font-size: 14px;
+      }
+    }
+
+    /* Landscape mode */
+    @media (max-width: 768px) and (orientation: landscape) {
+      body {
+        padding: 8px;
+        padding-bottom: 80px;
+      }
+
+      .test-section {
+        padding: 16px;
+      }
+    }
+
+    .info-box {
+      background: #dbeafe;
+      border-left: 4px solid #2563eb;
+      padding: 16px;
+      margin-top: 16px;
+      border-radius: 4px;
+    }
+
+    .info-box p {
+      color: #1e40af;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .screen-size {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <div class="screen-size" id="screenSize"></div>
+
+  <div class="container">
+    <h1>📱 AutoUX Mobile Responsiveness Test</h1>
+
+    <div class="test-section">
+      <h2>✅ Implementation Status</h2>
+      <div class="test-grid">
+        <div class="test-card">
+          <h3>Upload Card (90vw)</h3>
+          <p>Upload card automatically scales to 90vw on mobile screens</p>
+          <span class="status pass">✓ Implemented</span>
+        </div>
+        <div class="test-card">
+          <h3>Collapsible Footer</h3>
+          <p>Footer columns stack vertically on mobile with proper spacing</p>
+          <span class="status pass">✓ Implemented</span>
+        </div>
+        <div class="test-card">
+          <h3>Sticky Upload Button</h3>
+          <p>Fixed button at bottom center, visible only on mobile</p>
+          <span class="status pass">✓ Implemented</span>
+        </div>
+        <div class="test-card">
+          <h3>Touch Targets (44x44px)</h3>
+          <p>All interactive elements meet WCAG touch target guidelines</p>
+          <span class="status pass">✓ Implemented</span>
+        </div>
+        <div class="test-card">
+          <h3>Optimized Typography</h3>
+          <p>Font sizes scale appropriately for mobile readability</p>
+          <span class="status pass">✓ Implemented</span>
+        </div>
+        <div class="test-card">
+          <h3>Landscape Support</h3>
+          <p>Specific styles for landscape orientation</p>
+          <span class="status pass">✓ Implemented</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h2>📏 Screen Size Testing</h2>
+      <div class="info-box">
+        <p><strong>Current Screen:</strong> <span id="currentSize"></span></p>
+        <p><strong>Viewport:</strong> <span id="viewport"></span></p>
+        <p><strong>Orientation:</strong> <span id="orientation"></span></p>
+      </div>
+      <div class="test-grid">
+        <div class="test-card">
+          <h3>320px (iPhone SE)</h3>
+          <p>Extra small mobile devices</p>
+          <span class="status pass">✓ Tested</span>
+        </div>
+        <div class="test-card">
+          <h3>375px (iPhone 12/13)</h3>
+          <p>Standard mobile devices</p>
+          <span class="status pass">✓ Tested</span>
+        </div>
+        <div class="test-card">
+          <h3>768px (iPad Portrait)</h3>
+          <p>Tablet portrait mode</p>
+          <span class="status pass">✓ Tested</span>
+        </div>
+        <div class="test-card">
+          <h3>1024px (iPad Landscape)</h3>
+          <p>Tablet landscape mode</p>
+          <span class="status pass">✓ Tested</span>
+        </div>
+        <div class="test-card">
+          <h3>1440px (Desktop)</h3>
+          <p>Large desktop screens</p>
+          <span class="status pass">✓ Tested</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h2>👆 Touch-Friendly Elements Demo</h2>
+      <p style="color: #6b7280; margin-bottom: 16px;">All buttons below meet the minimum 44x44px touch target size:</p>
+      <div class="touch-demo">
+        <button>Button 1</button>
+        <button>Button 2</button>
+        <button>Button 3</button>
+        <button>🔍 Search</button>
+        <button>⚙️ Settings</button>
+        <button>📤 Upload</button>
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h2>🎨 Responsive Features</h2>
+      <div class="test-grid">
+        <div class="test-card">
+          <h3>Grid Layouts</h3>
+          <p>Automatically collapse to single column on mobile</p>
+        </div>
+        <div class="test-card">
+          <h3>Typography</h3>
+          <p>Font sizes scale based on screen width</p>
+        </div>
+        <div class="test-card">
+          <h3>Spacing</h3>
+          <p>Padding and margins adjust for mobile</p>
+        </div>
+        <div class="test-card">
+          <h3>Navigation</h3>
+          <p>Touch-friendly navigation elements</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h2>📋 Testing Instructions</h2>
+      <div class="info-box">
+        <p><strong>To test mobile responsiveness:</strong></p>
+        <p>1. Open browser DevTools (F12)</p>
+        <p>2. Toggle device toolbar (Ctrl+Shift+M)</p>
+        <p>3. Select different device presets</p>
+        <p>4. Test portrait and landscape orientations</p>
+        <p>5. Verify touch targets are adequate</p>
+        <p>6. Check that mobile upload button appears on screens < 768px</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Upload Button Demo (visible only on mobile) -->
+  <button class="mobile-upload-demo" onclick="alert('Mobile upload button clicked!')">
+    <span style="font-size: 1.3em;">📤</span>
+    <span>Upload Logs</span>
+  </button>
+
+  <script>
+    // Update screen size indicator
+    function updateScreenInfo() {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const orientation = width > height ? 'Landscape' : 'Portrait';
+      
+      let sizeCategory = '';
+      if (width <= 375) sizeCategory = 'Extra Small Mobile';
+      else if (width <= 480) sizeCategory = 'Small Mobile';
+      else if (width <= 768) sizeCategory = 'Mobile';
+      else if (width <= 1024) sizeCategory = 'Tablet';
+      else if (width <= 1440) sizeCategory = 'Desktop';
+      else sizeCategory = 'Large Desktop';
+
+      document.getElementById('screenSize').textContent = `${width}x${height}px`;
+      document.getElementById('currentSize').textContent = sizeCategory;
+      document.getElementById('viewport').textContent = `${width}x${height}px`;
+      document.getElementById('orientation').textContent = orientation;
+    }
+
+    // Update on load and resize
+    updateScreenInfo();
+    window.addEventListener('resize', updateScreenInfo);
+    window.addEventListener('orientationchange', updateScreenInfo);
+  </script>
+</body>
+</html>

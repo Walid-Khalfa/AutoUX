@@ -1,0 +1,452 @@
+/**
+ * AutoUX Animations CSS
+ * 
+ * High-performance animations using CSS transforms and GPU acceleration
+ * Ensures smooth 60fps animations throughout the application
+ * 
+ * Requirements: 2.2, 2.5
+ */
+
+/* ============================================
+   PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+/* Force GPU acceleration for smooth animations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform, opacity;
+}
+
+/* Optimize animations for 60fps */
+@media (prefers-reduced-motion: no-preference) {
+  * {
+    /* Use transform and opacity for best performance */
+    transition-property: transform, opacity, background-color, box-shadow, border-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* ============================================
+   KEYFRAME ANIMATIONS
+   ============================================ */
+
+/* Gradient shimmer for header */
+@keyframes gradientShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Diagonal shimmer effect */
+@keyframes diagonalShimmer {
+  0% {
+    background-position: -200% -200%;
+  }
+  100% {
+    background-position: 200% 200%;
+  }
+}
+
+/* AI pulse animation */
+@keyframes aiPulseGlow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1) translateZ(0);
+    box-shadow: 0 0 8px rgba(107, 78, 255, 0.6);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.1) translateZ(0);
+    box-shadow: 0 0 20px rgba(107, 78, 255, 1);
+  }
+}
+
+/* Smooth fade in */
+@keyframes smoothFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+}
+
+/* Smooth fade out */
+@keyframes smoothFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px) translateZ(0);
+  }
+}
+
+/* Scale bounce */
+@keyframes scaleBounce {
+  0%, 100% {
+    transform: scale(1) translateZ(0);
+  }
+  50% {
+    transform: scale(1.05) translateZ(0);
+  }
+}
+
+/* Rotate spin */
+@keyframes rotateSpin {
+  from {
+    transform: rotate(0deg) translateZ(0);
+  }
+  to {
+    transform: rotate(360deg) translateZ(0);
+  }
+}
+
+/* Slide in from right */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateZ(0);
+  }
+}
+
+/* Slide in from left */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateZ(0);
+  }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Fade transitions */
+.fade-in-fast {
+  animation: smoothFadeIn 0.2s ease-out;
+}
+
+.fade-in {
+  animation: smoothFadeIn 0.3s ease-out;
+}
+
+.fade-in-slow {
+  animation: smoothFadeIn 0.5s ease-out;
+}
+
+.fade-out {
+  animation: smoothFadeOut 0.3s ease-out;
+}
+
+/* AI pulse effects */
+.ai-pulse {
+  animation: aiPulseGlow 2s ease-in-out infinite;
+}
+
+.ai-pulse-fast {
+  animation: aiPulseGlow 1s ease-in-out infinite;
+}
+
+/* Hover effects */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px) translateZ(0);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.hover-scale {
+  transition: transform 0.2s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05) translateZ(0);
+}
+
+.hover-glow {
+  transition: box-shadow 0.2s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(107, 78, 255, 0.5);
+}
+
+.hover-glow-success {
+  transition: box-shadow 0.2s ease;
+}
+
+.hover-glow-success:hover {
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+}
+
+.hover-glow-error {
+  transition: box-shadow 0.2s ease;
+}
+
+.hover-glow-error:hover {
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+}
+
+/* Shimmer effect */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+/* Spin animation */
+.spin {
+  animation: rotateSpin 1s linear infinite;
+}
+
+.spin-slow {
+  animation: rotateSpin 2s linear infinite;
+}
+
+/* Bounce animation */
+.bounce {
+  animation: scaleBounce 1s ease-in-out infinite;
+}
+
+/* Slide animations */
+.slide-in-right {
+  animation: slideInRight 0.3s ease-out;
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+/* ============================================
+   BUTTON ANIMATIONS
+   ============================================ */
+
+.btn-animated {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-animated::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-animated:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-animated:hover {
+  transform: translateY(-2px) translateZ(0);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.btn-animated:active {
+  transform: translateY(0) translateZ(0);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================
+   CARD ANIMATIONS
+   ============================================ */
+
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px) translateZ(0);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* ============================================
+   LOADING ANIMATIONS
+   ============================================ */
+
+.loading-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.loading-dots::after {
+  content: '';
+  animation: loadingDots 1.5s steps(4, end) infinite;
+}
+
+@keyframes loadingDots {
+  0%, 20% {
+    content: '';
+  }
+  40% {
+    content: '.';
+  }
+  60% {
+    content: '..';
+  }
+  80%, 100% {
+    content: '...';
+  }
+}
+
+/* ============================================
+   TOAST ANIMATIONS
+   ============================================ */
+
+.toast-enter {
+  animation: slideInRight 0.3s ease-out;
+}
+
+.toast-exit {
+  animation: slideOutRight 0.3s ease-out;
+}
+
+@keyframes slideOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0) translateZ(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(400px) translateZ(0);
+  }
+}
+
+/* ============================================
+   MODAL ANIMATIONS
+   ============================================ */
+
+.modal-backdrop-enter {
+  animation: fadeInBackdrop 0.2s ease-out;
+}
+
+.modal-backdrop-exit {
+  animation: fadeOutBackdrop 0.2s ease-out;
+}
+
+@keyframes fadeInBackdrop {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOutBackdrop {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.modal-content-enter {
+  animation: scaleInModal 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal-content-exit {
+  animation: scaleOutModal 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes scaleInModal {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateZ(0);
+  }
+}
+
+@keyframes scaleOutModal {
+  from {
+    opacity: 1;
+    transform: scale(1) translateZ(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9) translateZ(0);
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - REDUCED MOTION
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .ai-pulse,
+  .shimmer,
+  .spin,
+  .bounce {
+    animation: none !important;
+  }
+}
+
+/* ============================================
+   PERFORMANCE HINTS
+   ============================================ */
+
+/* Hint browser about elements that will animate */
+.will-animate {
+  will-change: transform, opacity;
+}
+
+/* Remove will-change after animation completes */
+.animation-complete {
+  will-change: auto;
+}

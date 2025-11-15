@@ -1,0 +1,74 @@
+[
+  {
+    "id": "ok-1",
+    "timestamp": "2025-11-12T06:00:00Z",
+    "type": "performance",
+    "category": "api",
+    "message": "Temps de réponse 120ms sur /api/status (excellent)",
+    "metadata": {
+      "responseTime": 120,
+      "endpoint": "/api/status",
+      "method": "GET"
+    }
+  },
+  {
+    "id": "ok-2",
+    "timestamp": "2025-11-12T06:02:00Z",
+    "type": "ui",
+    "category": "contrast",
+    "message": "Contraste bon (7.5:1)",
+    "metadata": {
+      "contrastRatio": 7.5,
+      "element": ".title",
+      "foreground": "#000000",
+      "background": "#ffffff"
+    }
+  },
+  {
+    "id": "ok-3",
+    "timestamp": "2025-11-12T06:03:00Z",
+    "type": "accessibility",
+    "category": "links",
+    "message": "Lien avec texte explicite",
+    "metadata": {
+      "element": "a.cta",
+      "text": "Voir plus de détails sur nos services"
+    }
+  },
+  {
+    "id": "ok-4",
+    "timestamp": "2025-11-12T06:04:00Z",
+    "type": "performance",
+    "category": "api",
+    "message": "Temps de réponse 250ms sur /api/data (bon)",
+    "metadata": {
+      "responseTime": 250,
+      "endpoint": "/api/data",
+      "method": "GET"
+    }
+  },
+  {
+    "id": "ok-5",
+    "timestamp": "2025-11-12T06:05:00Z",
+    "type": "ui",
+    "category": "contrast",
+    "message": "Contraste excellent (12:1)",
+    "metadata": {
+      "contrastRatio": 12.0,
+      "element": "button.primary",
+      "foreground": "#ffffff",
+      "background": "#1a1a1a"
+    }
+  },
+  {
+    "id": "ok-6",
+    "timestamp": "2025-11-12T06:06:00Z",
+    "type": "accessibility",
+    "category": "images",
+    "message": "Image avec alt descriptif",
+    "metadata": {
+      "element": "img.hero",
+      "alt": "Équipe travaillant ensemble dans un bureau moderne"
+    }
+  }
+]

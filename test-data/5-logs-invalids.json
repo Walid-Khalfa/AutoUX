@@ -1,0 +1,68 @@
+[
+  {
+    "id": "ok-1",
+    "timestamp": "2025-11-12T07:00:00Z",
+    "type": "performance",
+    "category": "api",
+    "message": "Temps de réponse 5100ms",
+    "metadata": {
+      "responseTime": 5100,
+      "endpoint": "/api/files"
+    }
+  },
+  {
+    "id": "bad-1",
+    "timestamp": "not-a-date",
+    "type": "???",
+    "message": 123,
+    "metadata": "oops"
+  },
+  {
+    "id": "ok-2",
+    "timestamp": "2025-11-12T07:05:00Z",
+    "type": "accessibility",
+    "category": "keyboard",
+    "message": "Bouton non focusable",
+    "metadata": {
+      "element": "button.icon-only",
+      "keyboardNavigable": false
+    }
+  },
+  {
+    "message": "ligne sans id",
+    "type": "ui",
+    "metadata": {}
+  },
+  {
+    "id": "ok-3",
+    "timestamp": "2025-11-12T07:10:00Z",
+    "type": "ui",
+    "category": "contrast",
+    "message": "Contraste faible sur lien",
+    "metadata": {
+      "contrastRatio": 2.5,
+      "element": "a.footer-link"
+    }
+  },
+  {
+    "id": "bad-2",
+    "timestamp": "2025-11-12T07:15:00Z",
+    "type": "unknown-type",
+    "category": "weird",
+    "message": "This should be filtered out",
+    "metadata": {
+      "invalid": true
+    }
+  },
+  {
+    "id": "ok-4",
+    "timestamp": "2025-11-12T07:20:00Z",
+    "type": "error",
+    "category": "javascript",
+    "message": "Uncaught ReferenceError: foo is not defined",
+    "metadata": {
+      "component": "App.jsx",
+      "line": 12
+    }
+  }
+]

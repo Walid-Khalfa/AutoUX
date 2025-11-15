@@ -1,0 +1,18 @@
+{
+  "name": "autoux-web3",
+  "version": "1.0.0",
+  "description": "Web3 smart contracts for AutoUX on-chain verification",
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "deploy:nft": "hardhat run scripts/deployNFT.js --network sepolia",
+    "verify": "hardhat verify --network sepolia",
+    "test": "hardhat test"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@openzeppelin/contracts": "^5.4.0",
+    "dotenv": "^16.3.1",
+    "hardhat": "^2.19.0"
+  }
+}

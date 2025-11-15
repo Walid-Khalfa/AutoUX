@@ -1,0 +1,105 @@
+╔══════════════════════════════════════════════════════════════╗
+║           🧪 GUIDE RAPIDE - TESTS AUTOUX                    ║
+╚══════════════════════════════════════════════════════════════╝
+
+📁 6 FICHIERS DE TEST DISPONIBLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣  1-logs-complet.json
+    → 7 issues (tous types)
+    → Parfait pour une démo complète
+
+2️⃣  2-logs-latence.json
+    → 4 issues (test des seuils)
+    → Vérifie que < 3000ms ne crée pas d'issue
+
+3️⃣  3-logs-a11y.json
+    → 6 issues d'accessibilité
+    → Test des références WCAG
+
+4️⃣  4-logs-contrast-js.json
+    → 4 issues (contraste + JS)
+    → Test du filtrage des erreurs réseau
+
+5️⃣  5-logs-invalids.json
+    → 4 issues (validation Zod)
+    → Test du filtrage des logs invalides
+
+6️⃣  6-logs-clean.json
+    → 0 issue (tout est OK ✅)
+    → Test du message "No issues detected"
+
+
+🚀 DÉMARRAGE RAPIDE (2 MINUTES)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Ouvrir un terminal à la racine du projet
+
+2. Démarrer l'application :
+   npm run dev
+
+3. Ouvrir le navigateur :
+   http://localhost:5173
+
+4. Uploader un fichier :
+   - Cliquer sur "Upload Logs"
+   - Sélectionner test-data/1-logs-complet.json
+   - Attendre 2-3 secondes
+
+5. ✅ Vous devriez voir 7 issues détectées !
+
+
+📊 RÉSULTATS ATTENDUS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Fichier                    | Issues | Latence | A11y | Contraste | JS
+─────────────────────────────────────────────────────────────────────
+1-logs-complet.json        |   7    |    2    |  3   |     1     |  1
+2-logs-latence.json        |   4    |    4    |  0   |     0     |  0
+3-logs-a11y.json           |   6    |    0    |  6   |     0     |  0
+4-logs-contrast-js.json    |   4    |    0    |  0   |     2     |  2
+5-logs-invalids.json       |   4    |    1    |  1   |     1     |  1
+6-logs-clean.json          |   0    |    0    |  0   |     0     |  0
+
+
+🎯 TEST RECOMMANDÉ POUR DÉMO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Fichier : 1-logs-complet.json
+
+À vérifier :
+✅ Dashboard affiche 7 issues
+✅ Compteurs : 2 latence, 3 a11y, 1 contraste, 1 JS
+✅ Filtres par catégorie fonctionnent
+✅ Clic sur une issue → détails affichés
+✅ Badges de sévérité (🔴 Critical, 🟡 Medium, 🟢 Minor)
+
+
+🐛 PROBLÈMES COURANTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❌ "Unable to contact server"
+   → Le backend n'est pas démarré
+   → Solution : npm run dev
+
+❌ "Port 5173 already in use"
+   → Un processus utilise déjà le port
+   → Solution (PowerShell) :
+     Get-Process -Id (Get-NetTCPConnection -LocalPort 5173).OwningProcess | Stop-Process -Force
+
+❌ "Aucune entrée de log valide trouvée"
+   → Le fichier n'est pas au bon format
+   → Solution : Utiliser les fichiers fournis dans test-data/
+
+
+📚 DOCUMENTATION COMPLÈTE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📄 test-data/README.md       → Détails de chaque fichier
+📄 GUIDE_TEST.md             → Guide de test complet
+📄 GUIDE_WEB3_FR.md          → Guide Web3 en français
+📄 WEB3_SETUP.md             → Configuration Web3
+📄 README.md                 → Documentation principale
+
+
+✨ BON TEST ! 🚀

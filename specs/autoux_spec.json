@@ -1,0 +1,314 @@
+{
+  "name": "AutoUX",
+  "version": "1.0.0",
+  "description": "Système de détection et de correction de problèmes UX qui analyse des logs JSON pour identifier des problèmes de latence, d'accessibilité, de contraste et d'erreurs JavaScript",
+  "architecture": {
+    "frontend": {
+      "framework": "React",
+      "buildTool": "Vite",
+      "port": 5173,
+      "components": [
+        {
+          "name": "App",
+          "path": "frontend/src/App.jsx",
+          "description": "Composant racine qui gère l'état global et orchestre les composants enfants",
+          "state": {
+            "issues": "Array<Issue>",
+            "loading": "boolean",
+            "error": "string | null",
+            "selectedCategory": "string | null"
+          }
+        },
+        {
+          "name": "IssueList",
+          "path": "frontend/src/components/IssueList.jsx",
+          "description": "Affiche la liste des issues détectées avec grouping par catégorie et badges de sévérité",
+          "props": {
+            "issues": "Array<Issue>",
+            "onSelectIssue": "(issue: Issue) => void"
+          }
+        },
+        {
+          "name": "IssueDetail",
+          "path": "frontend/src/components/IssueDetail.jsx",
+          "description": "Affiche les détails d'une issue sélectionnée avec le fixspec associé",
+          "props": {
+            "issue": "Issue",
+            "fixspec": "Fixspec | null"
+          }
+        },
+        {
+          "name": "CategoryFilter",
+          "path": "frontend/src/components/CategoryFilter.jsx",
+          "description": "Filtre les issues par catégorie avec debounce et navigation clavier",
+          "props": {
+            "categories": "Array<string>",
+            "selectedCategory": "string | null",
+            "onSelectCategory": "(category: string) => void"
+          }
+        },
+        {
+          "name": "ErrorBoundary",
+          "path": "frontend/src/components/ErrorBoundary.jsx",
+          "description": "Capture les erreurs React et affiche un fallback UI"
+        }
+      ]
+    },
+    "backend": {
+      "framework": "Express",
+      "runtime": "Node.js",
+      "port": 3001,
+      "services": [
+        {
+          "name": "logSource",
+          "path": "backend/src/services/logSource.js",
+          "description": "Gère la lecture des logs avec cache basé sur mtime pour hot-reload"
+        },
+        {
+          "name": "issueAnalyzer",
+          "path": "backend/src/services/issueAnalyzer.js",
+          "description": "Analyse les logs et détecte les problèmes UX (latence, accessibilité, contraste, erreurs JS)"
+        },
+        {
+          "name": "fixspecGenerator",
+          "path": "backend/src/services/fixspecGenerator.js",
+          "description": "Génère des fixspecs JSON avec recommandations WCAG et Web Vitals"
+        },
+        {
+          "name": "util",
+          "path": "backend/src/services/util.js",
+          "description": "Utilitaires pour génération d'ID et calcul de sévérité"
+        }
+      ]
+    },
+    "dataFlow": [
+      "data/logs.json → Backend Service → Issue Analyzer → Fixspec Generator → data/fixspecs/",
+      "Backend Service → API /api/issues → Frontend React → User Interface"
+    ]
+  },
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/api/issues",
+      "description": "Récupère toutes les issues détectées",
+      "queryParameters": {
+        "refresh": {
+          "type": "string",
+          "optional": true,
+          "description": "Force le rechargement des logs (valeur: '1')"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "issues": "Array<Issue>",
+          "count": "number"
+        }
+      },
+      "errors": [
+        {
+          "status": 500,
+          "code": "LOGS_NOT_FOUND",
+          "message": "Fichier logs.json introuvable"
+        },
+        {
+          "status": 500,
+          "code": "INVALID_LOG_FORMAT",
+          "message": "Format de log invalide"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/issues/:id",
+      "description": "Récupère une issue spécifique par son ID",
+      "pathParameters": {
+        "id": {
+          "type": "string",
+          "description": "Identifiant unique de l'issue"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "issue": "Issue"
+        }
+      },
+      "errors": [
+        {
+          "status": 404,
+          "code": "ISSUE_NOT_FOUND",
+          "message": "Issue non trouvée"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/fixspecs",
+      "description": "Liste tous les fixspecs générés",
+      "response": {
+        "status": 200,
+        "body": {
+          "fixspecs": "Array<Fixspec>",
+          "count": "number"
+        }
+      },
+      "errors": [
+        {
+          "status": 500,
+          "code": "FILE_READ_ERROR",
+          "message": "Erreur de lecture des fixspecs"
+        }
+      ]
+    }
+  ],
+  "dataModels": {
+    "LogEntry": {
+      "description": "Entrée de log représentant un événement UX",
+      "fields": {
+        "id": "string",
+        "timestamp": "string (ISO 8601)",
+        "type": "enum: performance | accessibility | error | ui",
+        "category": "string (optional)",
+        "message": "string",
+        "metadata": {
+          "responseTime": "number (optional)",
+          "element": "string (optional)",
+          "errorMessage": "string (optional)",
+          "stackTrace": "string (optional)",
+          "contrastRatio": "number (optional)",
+          "wcagLevel": "string (optional)"
+        }
+      }
+    },
+    "Issue": {
+      "description": "Problème UX détecté par l'analyseur",
+      "fields": {
+        "id": "string",
+        "type": "enum: latence | accessibilité | contraste | erreur JS",
+        "description": "string",
+        "severity": "enum: high | medium | low",
+        "timestamp": "string (ISO 8601)",
+        "sourceLogId": "string",
+        "metadata": "Record<string, any>"
+      }
+    },
+    "Fixspec": {
+      "description": "Spécification de correctif pour une issue détectée",
+      "fields": {
+        "issueId": "string",
+        "type": "string",
+        "description": "string",
+        "severity": "string",
+        "suggestedFix": {
+          "summary": "string",
+          "steps": "Array<string>",
+          "codeExample": "string (optional)",
+          "references": "Array<string> (optional)"
+        },
+        "timestamp": "string (ISO 8601)",
+        "status": "enum: pending | applied | rejected"
+      }
+    }
+  },
+  "interactions": {
+    "userFlows": [
+      {
+        "name": "Visualiser les issues",
+        "steps": [
+          "L'utilisateur ouvre l'application frontend (http://localhost:5173)",
+          "Le composant App charge les issues via fetchIssues()",
+          "Le backend lit data/logs.json et analyse les logs",
+          "Les issues sont affichées dans IssueList groupées par catégorie",
+          "L'utilisateur peut filtrer par catégorie avec CategoryFilter"
+        ]
+      },
+      {
+        "name": "Consulter les détails d'une issue",
+        "steps": [
+          "L'utilisateur clique sur une issue dans IssueList",
+          "Le composant IssueDetail affiche les détails de l'issue",
+          "Le fixspec associé est chargé et affiché avec les recommandations",
+          "L'utilisateur peut voir les étapes de correction et les références WCAG/Web Vitals"
+        ]
+      },
+      {
+        "name": "Hot-reload des logs",
+        "steps": [
+          "Un développeur ajoute une nouvelle entrée dans data/logs.json",
+          "Le backend détecte le changement via mtime",
+          "Le cache est invalidé et les logs sont relus",
+          "De nouvelles issues sont détectées et des fixspecs générés",
+          "Le frontend peut rafraîchir pour voir les nouvelles issues"
+        ]
+      }
+    ],
+    "apiInteractions": [
+      {
+        "frontend": "fetchIssues()",
+        "backend": "GET /api/issues",
+        "description": "Récupère toutes les issues détectées"
+      },
+      {
+        "frontend": "fetchIssueById(id)",
+        "backend": "GET /api/issues/:id",
+        "description": "Récupère une issue spécifique"
+      },
+      {
+        "frontend": "fetchFixspecs()",
+        "backend": "GET /api/fixspecs",
+        "description": "Récupère tous les fixspecs générés"
+      }
+    ]
+  },
+  "detectionRules": {
+    "latence": {
+      "condition": "responseTime > 3000ms",
+      "severity": {
+        "high": "> 5000ms",
+        "medium": "3000-5000ms",
+        "low": "< 3000ms"
+      },
+      "references": ["Web Vitals – LCP < 2.5s", "Web Vitals – FID < 100ms"]
+    },
+    "accessibilité": {
+      "conditions": [
+        "Missing alt text on images",
+        "Invalid ARIA attributes",
+        "Keyboard navigation issues"
+      ],
+      "references": [
+        "WCAG 2.2 – 1.1.1 (Non-text Content)",
+        "WCAG 2.2 – 2.1.1 (Keyboard)",
+        "WCAG 2.2 – 4.1.2 (Name, Role, Value)"
+      ]
+    },
+    "contraste": {
+      "condition": "contrastRatio < 4.5:1",
+      "severity": "high",
+      "references": ["WCAG 2.2 – 1.4.3 (Contrast Minimum)"]
+    },
+    "erreur JS": {
+      "condition": "type === 'error' && category === 'javascript'",
+      "severity": "high",
+      "references": ["JavaScript Error Handling Best Practices"]
+    }
+  },
+  "configuration": {
+    "cors": {
+      "origin": "http://localhost:5173",
+      "credentials": true
+    },
+    "security": {
+      "headers": {
+        "X-Content-Type-Options": "nosniff"
+      }
+    },
+    "performance": {
+      "cacheStrategy": "mtime-based",
+      "debounceMs": 250,
+      "retryAttempts": 2,
+      "requestTimeout": 10000
+    }
+  }
+}

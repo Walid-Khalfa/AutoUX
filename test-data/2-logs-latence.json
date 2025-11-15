@@ -1,0 +1,62 @@
+[
+  {
+    "id": "l-1",
+    "timestamp": "2025-11-12T10:00:00Z",
+    "type": "performance",
+    "category": "api",
+    "message": "Temps de réponse 6200ms sur /api/report",
+    "metadata": {
+      "responseTime": 6200,
+      "endpoint": "/api/report",
+      "method": "POST"
+    }
+  },
+  {
+    "id": "l-2",
+    "timestamp": "2025-11-12T10:01:00Z",
+    "type": "performance",
+    "category": "api",
+    "message": "Temps de réponse 4200ms sur /api/search",
+    "metadata": {
+      "responseTime": 4200,
+      "endpoint": "/api/search",
+      "method": "GET"
+    }
+  },
+  {
+    "id": "l-3",
+    "timestamp": "2025-11-12T10:02:00Z",
+    "type": "performance",
+    "category": "api",
+    "message": "Temps de réponse 1800ms sur /api/ping (OK)",
+    "metadata": {
+      "responseTime": 1800,
+      "endpoint": "/api/ping",
+      "method": "GET"
+    }
+  },
+  {
+    "id": "l-4",
+    "timestamp": "2025-11-12T10:03:00Z",
+    "type": "performance",
+    "category": "api",
+    "message": "Temps de réponse 7500ms sur /api/export",
+    "metadata": {
+      "responseTime": 7500,
+      "endpoint": "/api/export",
+      "method": "POST"
+    }
+  },
+  {
+    "id": "l-5",
+    "timestamp": "2025-11-12T10:04:00Z",
+    "type": "performance",
+    "category": "api",
+    "message": "Temps de réponse 3200ms sur /api/users/list",
+    "metadata": {
+      "responseTime": 3200,
+      "endpoint": "/api/users/list",
+      "method": "GET"
+    }
+  }
+]

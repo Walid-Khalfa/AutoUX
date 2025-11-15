@@ -1,0 +1,86 @@
+[
+  {
+    "id": "log-001",
+    "timestamp": "2025-11-12T11:35:30Z",
+    "type": "performance",
+    "category": "api",
+    "message": "Temps de réponse 5500ms sur /api/users",
+    "metadata": {
+      "responseTime": 5500,
+      "endpoint": "/api/users",
+      "method": "GET"
+    }
+  },
+  {
+    "id": "log-002",
+    "timestamp": "2025-11-12T11:35:12Z",
+    "type": "performance",
+    "category": "api",
+    "message": "Temps de réponse 3800ms sur /api/dashboard/stats",
+    "metadata": {
+      "responseTime": 3800,
+      "endpoint": "/api/dashboard/stats",
+      "method": "GET"
+    }
+  },
+  {
+    "id": "log-003",
+    "timestamp": "2025-11-12T11:28:45Z",
+    "type": "accessibility",
+    "category": "images",
+    "message": "Image sans attribut alt",
+    "metadata": {
+      "element": "img#hero-banner",
+      "violation": "missing-alt-text",
+      "wcagLevel": "A"
+    }
+  },
+  {
+    "id": "log-004",
+    "timestamp": "2025-11-12T11:26:20Z",
+    "type": "accessibility",
+    "category": "keyboard",
+    "message": "Élément interactif non accessible au clavier",
+    "metadata": {
+      "element": "div.custom-dropdown",
+      "keyboardNavigable": false,
+      "wcagLevel": "A"
+    }
+  },
+  {
+    "id": "log-005",
+    "timestamp": "2025-11-12T11:24:05Z",
+    "type": "accessibility",
+    "category": "aria",
+    "message": "Attribut ARIA invalide",
+    "metadata": {
+      "element": "div[role='button']",
+      "aria-expanded": "yes",
+      "wcagLevel": "A"
+    }
+  },
+  {
+    "id": "log-006",
+    "timestamp": "2025-11-12T11:23:10Z",
+    "type": "ui",
+    "category": "contrast",
+    "message": "Contraste insuffisant",
+    "metadata": {
+      "contrastRatio": 3.2,
+      "element": "button.submit",
+      "wcagLevel": "AA"
+    }
+  },
+  {
+    "id": "log-007",
+    "timestamp": "2025-11-12T11:22:55Z",
+    "type": "error",
+    "category": "javascript",
+    "message": "Cannot read property 'map' of undefined",
+    "metadata": {
+      "component": "UserList.jsx",
+      "line": 45,
+      "stack": "at UserList.render (UserList.jsx:45:12)"
+    }
+  }
+]

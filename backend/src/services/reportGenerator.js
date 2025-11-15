@@ -1,0 +1,160 @@
+/**
+ * Report Generator Service
+ * Formats AI analysis into structured report with Markdown output
+ */
+
+import { v4 as uuidv4 } from 'uuid';
+
+/**
+ * Add metadata to AI report
+ * @param {Object} aiResponse - Raw AI response from LLM
+ * @returns {Object} Report with metadata
+ */
+export const addMetadata = (aiResponse) => {
+  const id = `report-${uuidv4()}`;
+  const timestamp = new Date().toISOString();
+  const version = "1.0.0";
+
+  return {
+    id,
+    timestamp,
+    version,
+    ...aiResponse,
+  };
+};
+
+/**
+ * Get emoji for UX score
+ * @param {number} score - UX score (0-100)
+ * @returns {string} Emoji representation
+ */
+const getScoreEmoji = (score) => {
+  if (score >= 90) return "🟢 Excellent";
+  if (score >= 70) return "🟠 Fair";
+  return "🔴 Critical";
+};
+
+/**
+ * Convert AI report to Markdown format
+ * @param {Object} report - Structured AI report
+ * @returns {string} Markdown formatted report
+ */
+export const generateMarkdown = (report) => {
+  const { uxScore, issues, categories, recommendations, metadata, timestamp } = report;
+  
+  let markdown = `# AutoUX Analysis Report\n\n`;
+  markdown += `**Generated:** ${new Date(timestamp).toLocaleString()}\n`;
+  markdown += `**UX Score:** ${uxScore}/100 ${getScoreEmoji(uxScore)}\n`;
+  markdown += `**Report ID:** ${report.id}\n\n`;
+
+  // Summary section
+  markdown += `## Summary\n\n`;
+  markdown += `- **Total Issues:** ${metadata.totalIssues}\n`;
+  markdown += `- **Critical:** ${metadata.criticalCount} | `;
+  markdown += `**High:** ${metadata.highCount} | `;
+  markdown += `**Medium:** ${metadata.mediumCount} | `;
+  markdown += `**Low:** ${metadata.lowCount}\n`;
+  markdown += `- **Analysis Model:** ${metadata.analysisModel}\n\n`;
+
+  // Issues by category
+  if (categories && Object.keys(categories).length > 0) {
+    markdown += `## Issues by Category\n\n`;
+    
+    Object.entries(categories).forEach(([category, count]) => {
+      markdown += `### ${category} (${count} issue${count !== 1 ? 's' : ''})\n\n`;
+      
+      // Find issues in this category
+      const categoryIssues = issues.filter(issue => issue.category === category);
+      
+      categoryIssues.forEach((issue, index) => {
+        markdown += `${index + 1}. **[${issue.severity.toUpperCase()}]** ${issue.description}\n`;
+        
+        // Add metadata details
+        if (issue.metadata) {
+          if (issue.metadata.responseTime) {
+            markdown += `   - Response Time: ${issue.metadata.responseTime}ms\n`;
+          }
+          if (issue.metadata.element) {
+            markdown += `   - Element: \`${issue.metadata.element}\`\n`;
+          }
+          if (issue.metadata.errorMessage) {
+            markdown += `   - Error: ${issue.metadata.errorMessage}\n`;
+          }
+          if (issue.metadata.contrastRatio) {
+            markdown += `   - Contrast Ratio: ${issue.metadata.contrastRatio}:1\n`;
+          }
+          if (issue.metadata.wcagCriteria && issue.metadata.wcagCriteria.length > 0) {
+            markdown += `   - WCAG Criteria: ${issue.metadata.wcagCriteria.join(', ')}\n`;
+          }
+          if (issue.metadata.webVitalsMetric) {
+            markdown += `   - Web Vitals: ${issue.metadata.webVitalsMetric}\n`;
+          }
+        }
+        markdown += `\n`;
+      });
+    });
+  }
+
+  // Recommendations section
+  if (recommendations && recommendations.length > 0) {
+    markdown += `## Recommendations\n\n`;
+    markdown += `AutoUX has analyzed your logs and identified the following prioritized actions:\n\n`;
+    
+    recommendations.forEach((rec) => {
+      markdown += `### ${rec.priority}. ${rec.title}\n\n`;
+      markdown += `**Description:** ${rec.description}\n\n`;
+      markdown += `**Why this matters:** ${rec.why}\n\n`;
+      
+      if (rec.references && rec.references.length > 0) {
+        markdown += `**References:**\n`;
+        rec.references.forEach(ref => {
+          markdown += `- ${ref}\n`;
+        });
+        markdown += `\n`;
+      }
+      
+      if (rec.codeExample) {
+        markdown += `**Code Example:**\n\`\`\`\n${rec.codeExample}\n\`\`\`\n\n`;
+      }
+      
+      markdown += `**Estimated Impact:** ${rec.estimatedImpact}\n\n`;
+      markdown += `---\n\n`;
+    });
+  }
+
+  // Standards references
+  markdown += `## Standards References\n\n`;
+  markdown += `This analysis is based on:\n\n`;
+  markdown += `- **WCAG 2.2:** Web Content Accessibility Guidelines\n`;
+  markdown += `  - 1.1.1 Non-text Content (alt text)\n`;
+  markdown += `  - 1.4.3 Contrast (Minimum)\n`;
+  markdown += `  - 2.1.1 Keyboard (navigation)\n`;
+  markdown += `  - 4.1.2 Name, Role, Value (ARIA)\n\n`;
+  markdown += `- **Web Vitals:** Core performance metrics\n`;
+  markdown += `  - LCP (Largest Contentful Paint): < 2.5s good, > 4s poor\n`;
+  markdown += `  - FID (First Input Delay): < 100ms good, > 300ms poor\n`;
+  markdown += `  - CLS (Cumulative Layout Shift): < 0.1 good, > 0.25 poor\n\n`;
+  
+  markdown += `---\n\n`;
+  markdown += `*Generated by AutoUX - AI-Powered UX Analysis*\n`;
+
+  return markdown;
+};
+
+/**
+ * Generate complete report with JSON and Markdown formats
+ * @param {Object} aiResponse - Raw AI response from LLM
+ * @returns {Object} { report: Object, markdown: string }
+ */
+export const generateReport = (aiResponse) => {
+  // Add metadata to the report
+  const report = addMetadata(aiResponse);
+  
+  // Generate Markdown version
+  const markdown = generateMarkdown(report);
+  
+  return {
+    report,
+    markdown,
+  };
+};

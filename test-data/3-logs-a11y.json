@@ -1,0 +1,80 @@
+[
+  {
+    "id": "a-1",
+    "timestamp": "2025-11-12T09:10:00Z",
+    "type": "accessibility",
+    "category": "images",
+    "message": "Image sans attribut alt",
+    "metadata": {
+      "element": "img.product-card",
+      "violation": "missing-alt-text",
+      "wcagLevel": "A",
+      "wcagCriterion": "1.1.1"
+    }
+  },
+  {
+    "id": "a-2",
+    "timestamp": "2025-11-12T09:12:00Z",
+    "type": "accessibility",
+    "category": "links",
+    "message": "Lien sans texte descriptif",
+    "metadata": {
+      "element": "a.icon-link",
+      "text": "",
+      "wcagLevel": "A",
+      "wcagCriterion": "2.4.4"
+    }
+  },
+  {
+    "id": "a-3",
+    "timestamp": "2025-11-12T09:13:30Z",
+    "type": "accessibility",
+    "category": "keyboard",
+    "message": "Focus non visible sur élément interactif",
+    "metadata": {
+      "element": "button.secondary",
+      "focusVisible": false,
+      "wcagLevel": "AA",
+      "wcagCriterion": "2.4.7"
+    }
+  },
+  {
+    "id": "a-4",
+    "timestamp": "2025-11-12T09:15:00Z",
+    "type": "accessibility",
+    "category": "aria",
+    "message": "Rôle ARIA incorrect",
+    "metadata": {
+      "element": "div[role='link']",
+      "role": "link",
+      "wcagLevel": "A",
+      "wcagCriterion": "4.1.2"
+    }
+  },
+  {
+    "id": "a-5",
+    "timestamp": "2025-11-12T09:16:00Z",
+    "type": "accessibility",
+    "category": "forms",
+    "message": "Champ de formulaire sans label",
+    "metadata": {
+      "element": "input#email",
+      "labelPresent": false,
+      "wcagLevel": "A",
+      "wcagCriterion": "3.3.2"
+    }
+  },
+  {
+    "id": "a-6",
+    "timestamp": "2025-11-12T09:17:00Z",
+    "type": "accessibility",
+    "category": "headings",
+    "message": "Hiérarchie de titres incorrecte (h1 → h3)",
+    "metadata": {
+      "element": "h3.section-title",
+      "previousHeading": "h1",
+      "wcagLevel": "A",
+      "wcagCriterion": "1.3.1"
+    }
+  }
+]

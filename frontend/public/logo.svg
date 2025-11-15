@@ -1,0 +1,30 @@
+<svg width="1000" height="400" viewBox="0 0 1000 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- U shape (purple) -->
+  <path d="M100 150 L100 300 Q100 350 150 350 L200 350 Q250 350 250 300 L250 150" stroke="#6b4eff" stroke-width="30" fill="none" stroke-linecap="round"/>
+  
+  <!-- ) shape (blue gradient) -->
+  <path d="M300 150 Q350 200 350 275 Q350 350 300 400" stroke="url(#blueGradient)" stroke-width="30" fill="none" stroke-linecap="round"/>
+  
+  <!-- Smile (orange) -->
+  <path d="M50 380 Q175 420 300 380" stroke="#ff9900" stroke-width="25" fill="none" stroke-linecap="round"/>
+  
+  <!-- Dot (orange) -->
+  <circle cx="280" cy="180" r="15" fill="#ff9900"/>
+  
+  <!-- Text "Auto" -->
+  <text x="400" y="320" font-family="Arial, sans-serif" font-size="140" font-weight="bold" fill="#1a1a1a">Auto</text>
+  
+  <!-- Text "UX" -->
+  <text x="780" y="320" font-family="Arial, sans-serif" font-size="140" font-weight="bold" fill="#6b4eff">UX</text>
+  
+  <!-- Tagline -->
+  <text x="400" y="380" font-family="Arial, sans-serif" font-size="32" fill="#666">AI-powered UX Insight Engine</text>
+  
+  <!-- Gradients -->
+  <defs>
+    <linearGradient id="blueGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#6b4eff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0073bb;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>

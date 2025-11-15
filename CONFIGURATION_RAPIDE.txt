@@ -1,0 +1,157 @@
+╔══════════════════════════════════════════════════════════════════╗
+║                                                                  ║
+║         🚀 CONFIGURATION WEB3 - GUIDE RAPIDE                    ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+
+📋 CHECKLIST DE CONFIGURATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Endpoint Alchemy configuré
+   → https://eth-sepolia.g.alchemy.com/v2/7I6jhLKb8HeIDJ1aCAQ90
+
+⏳ Clé privée MetaMask
+   → À ajouter dans web3/.env
+
+⏳ Sepolia ETH
+   → À obtenir sur https://sepoliafaucet.com/
+
+⏳ Déploiement du contrat
+   → npm run deploy:sepolia
+
+⏳ Configuration frontend
+   → Ajouter l'adresse du contrat dans frontend/.env
+
+
+🎯 MÉTHODE RAPIDE (RECOMMANDÉE)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣  Ajouter votre clé privée dans web3/.env
+
+2️⃣  Obtenir Sepolia ETH sur https://sepoliafaucet.com/
+
+3️⃣  Exécuter le script automatique :
+    
+    .\setup-web3.ps1
+
+4️⃣  Démarrer l'application :
+    
+    npm run dev
+
+5️⃣  Tester sur http://localhost:5173
+
+
+📝 FICHIERS À MODIFIER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. web3/.env
+   ┌────────────────────────────────────────────────────────────┐
+   │ SEPOLIA_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/...  │
+   │ PRIVATE_KEY=0xVOTRE_CLE_PRIVEE_METAMASK                    │
+   │ ETHERSCAN_API_KEY=                                         │
+   └────────────────────────────────────────────────────────────┘
+
+2. frontend/.env (après déploiement)
+   ┌────────────────────────────────────────────────────────────┐
+   │ VITE_REGISTRY_ADDRESS=0xADRESSE_DU_CONTRAT_DEPLOYE        │
+   │ VITE_CHAIN_NAME=Sepolia                                    │
+   │ VITE_CHAIN_ID=11155111                                     │
+   │ VITE_ETHERSCAN_URL=https://sepolia.etherscan.io           │
+   └────────────────────────────────────────────────────────────┘
+
+
+🔑 COMMENT OBTENIR VOTRE CLÉ PRIVÉE METAMASK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Ouvrir MetaMask
+2. Cliquer sur les 3 points (⋮) à côté de votre compte
+3. Sélectionner "Account Details"
+4. Cliquer sur "Export Private Key"
+5. Entrer votre mot de passe MetaMask
+6. Copier la clé (commence par 0x)
+7. Coller dans web3/.env
+
+⚠️  IMPORTANT : Ne partagez JAMAIS cette clé !
+
+
+💰 COMMENT OBTENIR SEPOLIA ETH (GRATUIT)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Aller sur https://sepoliafaucet.com/
+2. Entrer votre adresse wallet (depuis MetaMask)
+3. Cliquer sur "Send Me ETH"
+4. Attendre ~15 secondes
+5. Vérifier dans MetaMask (réseau Sepolia)
+
+
+🚀 COMMANDES DE DÉPLOIEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Installer les dépendances
+cd web3
+npm install
+
+# Compiler le contrat
+npm run compile
+
+# Déployer sur Sepolia
+npm run deploy:sepolia
+
+# Copier l'adresse affichée :
+# ✅ AutoUXRegistry deployed to: 0x1234...5678
+
+
+🧪 TESTER WEB3
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Démarrer : npm run dev
+2. Ouvrir : http://localhost:5173
+3. Uploader : test-data/1-logs-complet.json
+4. Voir : Carte violette "🔗 On-Chain Proof"
+5. Cliquer : "🦊 Connect MetaMask Wallet"
+6. Approuver : Connexion dans MetaMask
+7. Cliquer : "📌 Anchor Hash"
+8. Confirmer : Transaction dans MetaMask
+9. Attendre : ~15 secondes
+10. Cliquer : "🔍 Verify Hash"
+11. ✅ Voir : Badge "Verified" !
+
+
+📚 DOCUMENTATION COMPLÈTE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📄 SETUP_WEB3_GUIDE.md       → Guide étape par étape détaillé
+📄 GUIDE_WEB3_FR.md          → Guide utilisateur en français
+📄 WEB3_SETUP.md             → Documentation technique complète
+📄 GUIDE_TEST.md             → Guide de test avec 6 fichiers JSON
+📄 NEXT_STEPS.md             → Prochaines étapes
+
+
+🐛 PROBLÈMES COURANTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❌ "Insufficient funds for gas"
+   → Obtenir plus de Sepolia ETH sur https://sepoliafaucet.com/
+
+❌ "Invalid private key"
+   → Vérifier que la clé commence par 0x et fait 66 caractères
+
+❌ "Network error"
+   → Vérifier l'endpoint Alchemy dans web3/.env
+
+❌ "Contract not configured"
+   → Vérifier VITE_REGISTRY_ADDRESS dans frontend/.env
+
+❌ "MetaMask not found"
+   → Installer MetaMask : https://metamask.io/
+
+
+✨ PRÊT À DÉPLOYER !
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Suivez les étapes ci-dessus et vous aurez Web3 fonctionnel en 5 minutes !
+
+Pour plus de détails, consultez SETUP_WEB3_GUIDE.md
+
+Bon déploiement ! 🚀

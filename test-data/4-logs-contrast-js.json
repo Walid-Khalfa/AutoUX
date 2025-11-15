@@ -1,0 +1,66 @@
+[
+  {
+    "id": "c-1",
+    "timestamp": "2025-11-12T08:00:00Z",
+    "type": "ui",
+    "category": "contrast",
+    "message": "Contraste bas sur texte secondaire",
+    "metadata": {
+      "contrastRatio": 2.9,
+      "element": ".muted-text",
+      "foreground": "#999999",
+      "background": "#ffffff",
+      "wcagLevel": "AA"
+    }
+  },
+  {
+    "id": "c-2",
+    "timestamp": "2025-11-12T08:01:00Z",
+    "type": "ui",
+    "category": "contrast",
+    "message": "Contraste insuffisant sur bouton primaire",
+    "metadata": {
+      "contrastRatio": 3.8,
+      "element": "button.primary",
+      "foreground": "#6b7280",
+      "background": "#e5e7eb",
+      "wcagLevel": "AA"
+    }
+  },
+  {
+    "id": "e-1",
+    "timestamp": "2025-11-12T08:05:00Z",
+    "type": "error",
+    "category": "javascript",
+    "message": "TypeError: undefined is not a function",
+    "metadata": {
+      "component": "Checkout.tsx",
+      "line": 121,
+      "stack": "at processPayment (Checkout.tsx:121:15)\nat handleSubmit (Checkout.tsx:89:5)"
+    }
+  },
+  {
+    "id": "e-2",
+    "timestamp": "2025-11-12T08:06:00Z",
+    "type": "error",
+    "category": "network",
+    "message": "HTTP 500 /api/pay",
+    "metadata": {
+      "status": 500,
+      "endpoint": "/api/pay",
+      "method": "POST"
+    }
+  },
+  {
+    "id": "e-3",
+    "timestamp": "2025-11-12T08:07:00Z",
+    "type": "error",
+    "category": "javascript",
+    "message": "ReferenceError: calculateTotal is not defined",
+    "metadata": {
+      "component": "Cart.jsx",
+      "line": 67,
+      "stack": "at Cart.render (Cart.jsx:67:20)"
+    }
+  }
+]

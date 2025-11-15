@@ -1,0 +1,474 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AutoUX API",
+    "version": "1.0.0",
+    "description": "API for detecting and managing UX issues from log analysis. AutoUX analyzes JSON logs to identify latency, accessibility, contrast, and JavaScript error issues, then generates structured fixspecs with actionable recommendations.",
+    "contact": {
+      "name": "AutoUX Team"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001",
+      "description": "Local development server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Issues",
+      "description": "Endpoints for retrieving detected UX issues"
+    },
+    {
+      "name": "Fixspecs",
+      "description": "Endpoints for retrieving generated fix specifications"
+    },
+    {
+      "name": "Health",
+      "description": "Health check and monitoring endpoints"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": ["Health"],
+        "summary": "Health check endpoint",
+        "description": "Returns the health status of the API server",
+        "operationId": "getHealth",
+        "responses": {
+          "200": {
+            "description": "Server is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2025-11-12T10:30:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/issues": {
+      "get": {
+        "tags": ["Issues"],
+        "summary": "Get all detected UX issues",
+        "description": "Analyzes logs from data/logs.json and returns all detected UX issues. Supports hot-reload via the refresh parameter to force cache invalidation.",
+        "operationId": "getIssues",
+        "parameters": [
+          {
+            "name": "refresh",
+            "in": "query",
+            "description": "Force cache invalidation and re-read logs from disk. Use '1' or 'true' to enable.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["1", "true"],
+              "example": "1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved issues",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Issue"
+                      }
+                    },
+                    "count": {
+                      "type": "integer",
+                      "description": "Total number of issues detected",
+                      "example": 5
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid log format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "message": "Invalid log format or validation failed",
+                    "code": "INVALID_LOG_FORMAT",
+                    "details": "Log entry at index 3 failed validation",
+                    "timestamp": "2025-11-12T10:30:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Logs file not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "message": "Logs file not found",
+                    "code": "LOGS_NOT_FOUND",
+                    "timestamp": "2025-11-12T10:30:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "message": "Failed to analyze logs",
+                    "code": "ANALYSIS_FAILED",
+                    "timestamp": "2025-11-12T10:30:00.000Z"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/issues/{id}": {
+      "get": {
+        "tags": ["Issues"],
+        "summary": "Get a specific issue by ID",
+        "description": "Retrieves detailed information about a single UX issue identified by its unique ID.",
+        "operationId": "getIssueById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of the issue",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "issue-07cddaa7-e568-4d20-baf3-ed0262a1eff7"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved issue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "issue": {
+                      "$ref": "#/components/schemas/Issue"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "message": "Issue ID is required",
+                    "code": "INVALID_PARAMETER",
+                    "timestamp": "2025-11-12T10:30:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Issue not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "message": "Issue with ID \"issue-123\" not found",
+                    "code": "ISSUE_NOT_FOUND",
+                    "timestamp": "2025-11-12T10:30:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/fixspecs": {
+      "get": {
+        "tags": ["Fixspecs"],
+        "summary": "Get all generated fixspecs",
+        "description": "Lists all fixspec files from the data/fixspecs directory. Each fixspec contains detailed recommendations for fixing a detected UX issue.",
+        "operationId": "getFixspecs",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved fixspecs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fixspecs": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Fixspec"
+                      }
+                    },
+                    "count": {
+                      "type": "integer",
+                      "description": "Total number of fixspecs",
+                      "example": 5
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to read fixspecs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "message": "Failed to read fixspecs",
+                    "code": "FIXSPECS_READ_FAILED",
+                    "details": "Permission denied",
+                    "timestamp": "2025-11-12T10:30:00.000Z"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Issue": {
+        "type": "object",
+        "description": "A detected UX issue from log analysis",
+        "required": ["id", "type", "description", "severity", "timestamp", "sourceLogId", "metadata"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the issue",
+            "example": "issue-07cddaa7-e568-4d20-baf3-ed0262a1eff7"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["latence", "accessibilité", "contraste", "erreur JS"],
+            "description": "Type of UX issue detected",
+            "example": "latence"
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable description of the issue",
+            "example": "Temps de réponse élevé détecté: 4500ms sur /api/data"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["high", "medium", "low"],
+            "description": "Severity level of the issue",
+            "example": "high"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the issue was detected",
+            "example": "2025-11-12T10:30:00.000Z"
+          },
+          "sourceLogId": {
+            "type": "string",
+            "description": "ID of the source log entry that triggered this issue",
+            "example": "log-123"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional context-specific metadata about the issue",
+            "additionalProperties": true,
+            "example": {
+              "responseTime": 4500,
+              "endpoint": "/api/data",
+              "method": "GET"
+            }
+          }
+        }
+      },
+      "Fixspec": {
+        "type": "object",
+        "description": "A fix specification document with recommendations for resolving a UX issue",
+        "required": ["issueId", "type", "description", "severity", "suggestedFix", "timestamp", "status"],
+        "properties": {
+          "issueId": {
+            "type": "string",
+            "description": "ID of the associated issue",
+            "example": "issue-07cddaa7-e568-4d20-baf3-ed0262a1eff7"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of issue this fixspec addresses",
+            "example": "latence"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the issue",
+            "example": "Temps de réponse élevé détecté: 4500ms sur /api/data"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["high", "medium", "low"],
+            "description": "Severity level",
+            "example": "high"
+          },
+          "suggestedFix": {
+            "type": "object",
+            "description": "Detailed fix recommendations",
+            "required": ["summary", "steps"],
+            "properties": {
+              "summary": {
+                "type": "string",
+                "description": "Brief summary of the recommended fix",
+                "example": "Optimiser le temps de réponse de /api/data (actuellement 4500ms)"
+              },
+              "steps": {
+                "type": "array",
+                "description": "Step-by-step instructions for implementing the fix",
+                "items": {
+                  "type": "string"
+                },
+                "example": [
+                  "Analyser les requêtes base de données avec un profiler",
+                  "Implémenter un système de cache (Redis, Memcached)",
+                  "Optimiser les requêtes N+1 avec eager loading"
+                ]
+              },
+              "codeExample": {
+                "type": "string",
+                "description": "Optional code example demonstrating the fix",
+                "example": "// Example: Cache with Redis\nimport redis from 'redis';\nconst client = redis.createClient();"
+              },
+              "references": {
+                "type": "array",
+                "description": "References to standards and documentation",
+                "items": {
+                  "type": "string"
+                },
+                "example": [
+                  "Web Vitals – LCP (Largest Contentful Paint) < 2.5s",
+                  "https://web.dev/optimize-lcp/"
+                ]
+              }
+            }
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the fixspec was generated",
+            "example": "2025-11-12T10:30:00.000Z"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "applied", "rejected"],
+            "description": "Current status of the fix",
+            "example": "pending"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "description": "Standard error response format",
+        "required": ["error"],
+        "properties": {
+          "error": {
+            "type": "object",
+            "required": ["message", "code", "timestamp"],
+            "properties": {
+              "message": {
+                "type": "string",
+                "description": "Human-readable error message",
+                "example": "Logs file not found"
+              },
+              "code": {
+                "type": "string",
+                "description": "Machine-readable error code",
+                "enum": [
+                  "LOGS_NOT_FOUND",
+                  "INVALID_LOG_FORMAT",
+                  "ANALYSIS_FAILED",
+                  "ISSUE_NOT_FOUND",
+                  "INVALID_PARAMETER",
+                  "FIXSPECS_READ_FAILED",
+                  "INTERNAL_ERROR",
+                  "ROUTE_NOT_FOUND"
+                ],
+                "example": "LOGS_NOT_FOUND"
+              },
+              "details": {
+                "type": "string",
+                "description": "Optional additional error details",
+                "example": "File not found at /path/to/logs.json"
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time",
+                "description": "When the error occurred",
+                "example": "2025-11-12T10:30:00.000Z"
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {}
+  },
+  "security": []
+}
